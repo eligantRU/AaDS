@@ -1,0 +1,8 @@
+Sarah Rever 4 5 3
+Alex Sokolnikov 1 1 1
+Paul  Rever   4 1 2
+Nick Yegorov 1 1 1
+Darya Grebneva 5 1 2
+Ivan Puzatkin 5 1 2
+Vasiliy Uskov 1 2 1
+Pavel Baranov 2 2 2

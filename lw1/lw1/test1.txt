@@ -1,0 +1,3 @@
+Paul Ataykin 5 5 5
+Nick Yegorov 5 5 5
+Ramil Fatykhov 6 5 0
