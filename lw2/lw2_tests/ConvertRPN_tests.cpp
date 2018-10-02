@@ -34,6 +34,7 @@ BOOST_AUTO_TEST_CASE(ConvertRPN_fn_)
 		BOOST_CHECK(ConvertRPN(TokenizeString("a b + exp")) == "exp(a+b)");
 		BOOST_CHECK(ConvertRPN(TokenizeString("0 sin")) == "sin0");
 		BOOST_CHECK(ConvertRPN(TokenizeString("a b * d - cos sin")) == "sincos(a*b-d)");
+		BOOST_CHECK(ConvertRPN(TokenizeString("a sin b ^ c d * +")) == "sina^b+c*d");
 	}
 }
 

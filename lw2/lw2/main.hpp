@@ -39,7 +39,6 @@ OperationPriority GetOperationPriority(const string & str)
 	if (str == "cos") return OperationPriority::COS;
 	if (str == "sin") return OperationPriority::SIN;
 	if (str == "exp") return OperationPriority::EXP;
-
 	if (str == "^") return OperationPriority::POW;
 	if (str == "/") return OperationPriority::DIV;
 	if (str == "*") return OperationPriority::MUL;
