@@ -3,6 +3,7 @@
 #include <string>
 #include <stack>
 #include <vector>
+#include <map>
 #include <algorithm>
 #include <memory>
 
@@ -65,9 +66,7 @@ public:
 		:m_op1(op1)
 		, m_oper(oper)
 		, m_op2(op2)
-	{
-		cerr << op1 << oper << op2 << endl;
-	}
+	{}
 
 	string op1() const override { return m_op1; }
 	string oper() const override { return m_oper; }
