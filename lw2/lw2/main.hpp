@@ -55,8 +55,8 @@ float DoOperation(float op1, float op2, const string & op)
 	if (op == "/") return op1 / op2;
 	if (op == "^") return powf(op1, op2);
 	if (op == "exp") return expf(op1);
-	if (op == "sin") return sin(op1);
-	if (op == "cos") return cos(op1);
+	if (op == "sin") return sinf(op1);
+	if (op == "cos") return cosf(op1);
 	throw invalid_argument("Unknown operator '" + op + "'");
 }
 
