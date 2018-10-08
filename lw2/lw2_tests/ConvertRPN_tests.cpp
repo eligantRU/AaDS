@@ -4,11 +4,22 @@
 
 BOOST_AUTO_TEST_SUITE(ConvertRPN_)
 
-BOOST_AUTO_TEST_CASE(TokenizeString_)
+BOOST_AUTO_TEST_CASE(TokenizeString_fn_)
 {
 	{
 		const auto expectedResult = vector<string>{ "a", "b", "+", "c", "*" };
 		BOOST_CHECK(TokenizeString("a b + c *") == expectedResult);
+	}
+}
+
+BOOST_AUTO_TEST_CASE(IsFLoat_fn_)
+{
+	{
+		BOOST_CHECK(IsFloat("42"));
+		BOOST_CHECK(IsFloat("-42"));
+		BOOST_CHECK(IsFloat("3.141592653589793238"));
+		BOOST_CHECK(IsFloat("-3.141592653589793238"));
+		BOOST_CHECK(!IsFloat("3,141592653589793238"));
 	}
 }
 

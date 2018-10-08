@@ -6,6 +6,7 @@
 #include <map>
 #include <algorithm>
 #include <memory>
+#include <sstream>
 
 using namespace::std;
 
@@ -34,6 +35,14 @@ bool IsOperator(const string & str)
 	return (str == "+") || (str == "-")
 		|| (str == "*") || (str == "/") || (str == "^")
 		|| (str == "cos") || (str == "sin") || (str == "exp");
+}
+
+bool IsFloat(const string & str)
+{
+	istringstream stream(str);
+	float value;
+	stream >> noskipws >> value;
+	return stream.eof() && !stream.fail();
 }
 
 OperationPriority GetOperationPriority(const string & str)
