@@ -9,6 +9,8 @@
 
 using namespace::std;
 
+bool g_needCalc = false;
+
 enum OperationPriority
 {
 	EXP = 5,
@@ -54,9 +56,9 @@ float DoOperation(float op1, float op2, const string & op)
 	if (op == "*") return op1 * op2;
 	if (op == "/") return op1 / op2;
 	if (op == "^") return powf(op1, op2);
-	if (op == "exp") return expf(op1);
-	if (op == "sin") return sinf(op1);
-	if (op == "cos") return cosf(op1);
+	if (op == "exp") return expf(op2);
+	if (op == "sin") return sinf(op2);
+	if (op == "cos") return cosf(op2);
 	throw invalid_argument("Unknown operator '" + op + "'");
 }
 
@@ -75,10 +77,56 @@ class Expression : public IExpression
 public:
 	Expression() = delete;
 	Expression(string op1, string oper, string op2)
-		:m_op1(op1)
-		, m_oper(oper)
-		, m_op2(op2)
-	{}
+	{
+		m_op1 = op1;
+		m_op2 = op2;
+		m_oper = oper;
+		
+		float o1 = 0;
+		float o2 = 0;
+		if (!oper.empty())
+		{
+			try
+			{
+				if (!op1.empty() && !op2.empty())
+				{
+					o1 = stof(op1);
+					o2 = stof(op2);
+				}
+				else if (!op1.empty())
+				{
+					o1 = stof(op1);
+				}
+				else if (!op2.empty())
+				{
+					o2 = stof(op2);
+				}
+			}
+			catch (...) {}
+		}
+		else
+		{
+			try
+			{
+				o2 = stof(op2);
+			}
+			catch (...) {}
+		}
+
+		try
+		{
+			if (g_needCalc)
+			{
+				m_result = (!oper.empty())
+					? to_string(DoOperation(o1, o2, oper))
+					: to_string(o2);
+				m_op1 = "";
+				m_oper = "";
+				m_op2 = m_result;
+			}
+		}
+		catch (...) {}
+	}
 
 	string op1() const override { return m_op1; }
 	string oper() const override { return m_oper; }
@@ -93,6 +141,8 @@ private:
 	string m_op1;
 	string m_oper;
 	string m_op2;
+
+	string m_result = "[NotCalculated]";
 };
 
 struct BracketedExpression : public Expression
@@ -173,15 +223,16 @@ void ProcessUnaryOperation(stack<shared_ptr<IExpression>> & stack, const string 
 	));
 }
 
-string ConvertRPN(const vector<string> & tokens)
+string ConvertRPN(const vector<string> & tokens, bool needCalc = false)
 {
+	g_needCalc = needCalc;
 	stack<shared_ptr<IExpression>> stack;
 	string oper;
 	for (const auto & token : tokens)
 	{
 		if (!IsOperator(token))
 		{
-			stack.push(make_shared<Expression>("", token, ""));
+			stack.push(make_shared<Expression>("", "", token));
 		}
 		else
 		{

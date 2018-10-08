@@ -19,22 +19,22 @@ BOOST_AUTO_TEST_CASE(ConvertRPN_fn_)
 		BOOST_REQUIRE_THROW(ConvertRPN(TokenizeString("a b c")), runtime_error);
 	}
 	{
-		BOOST_CHECK(ConvertRPN(TokenizeString("a b + c *")) == "(a+b)*c");
-		BOOST_CHECK(ConvertRPN(TokenizeString("a b x + * d - 2 /")) == "(a*(b+x)-d)/2");
+		BOOST_CHECK_EQUAL(ConvertRPN(TokenizeString("a b + c *")), "(a+b)*c");
+		BOOST_CHECK_EQUAL(ConvertRPN(TokenizeString("a b x + * d - 2 /")), "(a*(b+x)-d)/2");
 	}
 	{
-		BOOST_CHECK(ConvertRPN(TokenizeString("3 c 2 d + ^ e f - ^ +")) == "3+c^(2+d)^(e-f)");
-		BOOST_CHECK(ConvertRPN(TokenizeString("2 3 ^ 4 ^")) == "2^3^4");
+		BOOST_CHECK_EQUAL(ConvertRPN(TokenizeString("3 c 2 d + ^ e f - ^ +")), "3+c^(2+d)^(e-f)");
+		BOOST_CHECK_EQUAL(ConvertRPN(TokenizeString("2 3 ^ 4 ^")), "2^3^4");
 	}
 	{
-		BOOST_CHECK(ConvertRPN(TokenizeString("c a b + -")) == "c-(a+b)");
-		BOOST_CHECK(ConvertRPN(TokenizeString("a b + c *")) == "(a+b)*c");
+		BOOST_CHECK_EQUAL(ConvertRPN(TokenizeString("c a b + -")), "c-(a+b)");
+		BOOST_CHECK_EQUAL(ConvertRPN(TokenizeString("a b + c *")), "(a+b)*c");
 	}
 	{
-		BOOST_CHECK(ConvertRPN(TokenizeString("a b + exp")) == "exp(a+b)");
-		BOOST_CHECK(ConvertRPN(TokenizeString("0 sin")) == "sin0");
-		BOOST_CHECK(ConvertRPN(TokenizeString("a b * d - cos sin")) == "sincos(a*b-d)");
-		BOOST_CHECK(ConvertRPN(TokenizeString("a sin b ^ c d * +")) == "sina^b+c*d");
+		BOOST_CHECK_EQUAL(ConvertRPN(TokenizeString("a b + exp")), "exp(a+b)");
+		BOOST_CHECK_EQUAL(ConvertRPN(TokenizeString("0 sin")), "sin0");
+		BOOST_CHECK_EQUAL(ConvertRPN(TokenizeString("a b * d - cos sin")), "sincos(a*b-d)");
+		BOOST_CHECK_EQUAL(ConvertRPN(TokenizeString("a sin b ^ c d * +")), "sina^b+c*d");
 	}
 }
 
