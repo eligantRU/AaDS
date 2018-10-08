@@ -2,6 +2,13 @@
 
 #include "../lw2/main.hpp"
 
+namespace
+{
+
+static const auto eps = 10e-3;
+
+}
+
 BOOST_AUTO_TEST_SUITE(ConvertRPN_)
 
 BOOST_AUTO_TEST_CASE(TokenizeString_fn_)
@@ -46,6 +53,28 @@ BOOST_AUTO_TEST_CASE(ConvertRPN_fn_)
 		BOOST_CHECK_EQUAL(ConvertRPN(TokenizeString("0 sin")), "sin0");
 		BOOST_CHECK_EQUAL(ConvertRPN(TokenizeString("a b * d - cos sin")), "sincos(a*b-d)");
 		BOOST_CHECK_EQUAL(ConvertRPN(TokenizeString("a sin b ^ c d * +")), "sina^b+c*d");
+	}
+}
+
+BOOST_AUTO_TEST_CASE(CalculateRPN_fn)
+{
+	{
+		BOOST_REQUIRE_CLOSE_FRACTION(CalculateRPN(TokenizeString("2 3 +")), 5.f, eps);
+	}
+	{
+		BOOST_REQUIRE_CLOSE_FRACTION(CalculateRPN(TokenizeString("2 3 * 7 + 0 exp +")), 14.f, eps);
+	}
+	{
+		BOOST_REQUIRE_CLOSE_FRACTION(CalculateRPN(TokenizeString("1 2 + 3 *")), 9.f, eps);
+	}
+	{
+		BOOST_REQUIRE_CLOSE_FRACTION(CalculateRPN(TokenizeString("5.497625 sin 2 ^ 5.497625 cos 2 ^ +")), 1.f, eps);
+	}
+	{
+		BOOST_REQUIRE_CLOSE_FRACTION(CalculateRPN(TokenizeString("5.497625 sin 2 ^ 5.497625 cos 2 ^ + 2 *")), 2.f, eps);
+	}
+	{
+		BOOST_REQUIRE_CLOSE_FRACTION(CalculateRPN(TokenizeString("5.497625 sin 2 ^ 5.497625 cos 2 ^ + 2 * exp")), 7.389f, eps);
 	}
 }
 

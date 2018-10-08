@@ -7,6 +7,7 @@
 #include <algorithm>
 #include <memory>
 #include <sstream>
+#include <iomanip>
 
 using namespace::std;
 
@@ -262,4 +263,9 @@ string ConvertRPN(const vector<string> & tokens, bool needCalc = false)
 		throw runtime_error("Invalid stack state: should contains only one element");
 	}
 	return stack.top()->ToString();
+}
+
+float CalculateRPN(const vector<string> & tokens)
+{
+	return stof(ConvertRPN(tokens, true));
 }
