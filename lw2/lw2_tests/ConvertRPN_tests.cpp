@@ -54,6 +54,10 @@ BOOST_AUTO_TEST_CASE(ConvertRPN_fn_)
 		BOOST_CHECK_EQUAL(ConvertRPN(TokenizeString("a b * d - cos sin")), "sincos(a*b-d)");
 		BOOST_CHECK_EQUAL(ConvertRPN(TokenizeString("a sin b ^ c d * +")), "sina^b+c*d");
 	}
+	{
+		BOOST_CHECK_EQUAL(ConvertRPN(TokenizeString("a b c ^ ^")), "a^b^c");
+		BOOST_CHECK_EQUAL(ConvertRPN(TokenizeString("a b ^ c ^")), "(a^b)^c");
+	}
 }
 
 BOOST_AUTO_TEST_CASE(CalculateRPN_fn)

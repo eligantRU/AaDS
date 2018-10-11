@@ -206,7 +206,9 @@ void ProcessBinaryOperation(stack<shared_ptr<IExpression>> & stack, const string
 	}
 
 	stack.push(make_shared<Expression>(
-		op2->op1() + op2->oper() + op2->op2(),
+		(op2->oper() == "^")
+			? "(" + op2->op1() + op2->oper() + op2->op2() + ")"
+			: op2->op1() + op2->oper() + op2->op2(),
 		oper,
 		op1->op1() + op1->oper() + op1->op2()
 	));
