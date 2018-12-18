@@ -99,6 +99,11 @@ int main(int argv, char * argc[])
 		const string fileName = argc[1];
 		ifstream input(fileName);
 
+		if (!input.is_open())
+		{
+			throw exception("File was not opened");
+		}
+
 		int value;
 		while (input >> value)
 		{
