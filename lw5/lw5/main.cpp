@@ -32,13 +32,13 @@ ReturnedValue Impl(int value)
 
 	while (lower != upper)
 	{
-		auto compared_value = lower + (upper - lower) / 2;
-		if (value == values[compared_value])
-			return make_pair(compared_value + 1, make_pair(lower, upper));
-		else if (value < values[compared_value])
-			upper = compared_value;
+		auto checking = lower + (upper - lower) / 2;
+		if (value == values[checking])
+			return make_pair(checking + 1, make_pair(lower, upper));
+		if (value <= values[checking])
+			upper = checking;
 		else
-			lower = compared_value + 1;
+			lower = checking + 1;
 		if ((lastLower == lower) && (lastUpper == upper))
 			return make_pair(lower, make_pair(lower, upper));
 		lastLower = lower;
@@ -71,7 +71,10 @@ size_t Find(int value)
 {
 	const auto [result, _] = Impl(value);
 	if (!result) throw exception("Not found");
-	return result.value() - 1;
+
+	auto tmp = result.value() - 1;
+	while ((tmp != 0) && (values[tmp - 1] == value)) --tmp;
+	return tmp;
 }
 
 void Delete(int value)
