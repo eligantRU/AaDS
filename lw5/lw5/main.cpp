@@ -88,54 +88,66 @@ void Print()
 	cout << endl;
 }
 
-int main()
+int main(int argv, char * argc[])
 {
-	ifstream strm("1.dat");
-
-	int value;
-	while (strm >> value)
+	try
 	{
-		values.push_back(value);
-	}
-	Print();
+		if (argv != 2)
+		{
+			throw exception("Expected argument <input_file_name>");
+		}
+		const string fileName = argc[1];
+		ifstream input(fileName);
 
-	string command;
-	cout << " >> ";
-	while (cin >> command)
-	{
-		if (command.empty()) continue;
-		
-		try
+		int value;
+		while (input >> value)
 		{
-			if (command == "insert")
-			{
-				cin >> value;
-				Insert(value);
-			}
-			else if (command == "find")
-			{
-				cin >> value;
-				cout << Find(value) << endl;
-			}
-			else if (command == "delete")
-			{
-				cin >> value;
-				Delete(value);
-			}
-			else if (command == "exit")
-			{
-				break;
-			}
-			else
-			{
-				throw exception("Unknown command");
-			}
-			Print();
+			values.push_back(value);
 		}
-		catch (const exception & ex)
-		{
-			cout << ex.what() << endl;
-		}
+		Print();
+
+		string command;
 		cout << " >> ";
+		while (cin >> command)
+		{
+			if (command.empty()) continue;
+
+			try
+			{
+				if (command == "insert")
+				{
+					cin >> value;
+					Insert(value);
+				}
+				else if (command == "find")
+				{
+					cin >> value;
+					cout << Find(value) << endl;
+				}
+				else if (command == "delete")
+				{
+					cin >> value;
+					Delete(value);
+				}
+				else if (command == "exit")
+				{
+					break;
+				}
+				else
+				{
+					throw exception("Unknown command");
+				}
+				Print();
+			}
+			catch (const exception & ex)
+			{
+				cout << ex.what() << endl;
+			}
+			cout << " >> ";
+		}
+	}
+	catch (const exception & ex)
+	{
+		cerr << ex.what() << endl;
 	}
 }
